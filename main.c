@@ -5,7 +5,6 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <time.h>
-#include "ui.h"
 
 
 void packet_crc(packet_t *p){
@@ -27,9 +26,7 @@ int main(int argc, char ** argv){
           return 1;
         if(joystick_wait_safe() != 0)
           return 1;
-        init_ui();
         while(loop){
-          int overflow = 0;
           if(serio_recv(&c, msg) < 0){
             printf("Error reading data!\n");
             return 2;
@@ -42,9 +39,7 @@ int main(int argc, char ** argv){
             printf("Unable to send data!\n");
             return 2;
             }
-        //printf("X: %i, Y: %i, CRC: %i, Resp: %s\n", ctl.stickX, ctl.stickY, ctl.cksum, msg); 
-        refresh_ui(&ctl, msg, overflow);
-//        usleep(150E3);
+        printf("X: %i, Y: %i, CRC: %i, Resp: %s\n", ctl.stickX, ctl.stickY, ctl.cksum, msg); 
         }
         return 0;
 }
